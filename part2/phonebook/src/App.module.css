@@ -1,0 +1,16 @@
+.notification-success {
+  margin: 8px;
+  padding: 16px 8px;
+  background-color: #ccc;
+  border: 3px solid green;
+  color: green;
+  border-radius: 5px;
+}
+.notification-error {
+  margin: 8px;
+  padding: 16px 8px;
+  background-color: #ccc;
+  border: 3px solid red;
+  color: red;
+  border-radius: 5px;
+}
