@@ -1,30 +1,11 @@
 const express = require('express');
+require('dotenv').config();
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
-
-const data = [
-  {
-    id: 1,
-    name: 'Arto Hellas',
-    number: '040-123456',
-  },
-  {
-    id: 2,
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-  },
-  {
-    id: 3,
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-  },
-  {
-    id: 4,
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-  },
-];
+const ErrorHandler = require('./middlewares/ErrorHandler');
+const PORT = process.env.PORT;
+const Phonebook = require('./models/phonebook');
 const baseURL = '/api/persons';
 
 //*Middlewares
@@ -39,57 +20,112 @@ morgan.token('body', (req, res) => {
 });
 
 //* GET
-app.get(`${baseURL}`, (req, res) => {
-  return res.json(data);
+app.get(`${baseURL}`, (req, res, next) => {
+  return Phonebook.find({})
+    .then((result) => res.json(result))
+    .catch((err) => next(err));
 });
 
-app.get('/info', (req, res) => {
-  const result = `Phonebook has info for ${data.length} people`;
+app.get('/info', async (req, res, next) => {
+  const length = await Phonebook.estimatedDocumentCount();
+  console.log('length', length);
+  const result = `Phonebook has info for ${length} people`;
   const time = new Date().toUTCString();
   return res.send(`<p>${result}</p><p>${time}</p>`);
 });
 
-app.get(`${baseURL}/:id`, (req, res) => {
-  const id = Number(req.params.id);
-  const foundPerson = data.find((person) => person.id === id);
-  if (foundPerson) {
-    return res.json(foundPerson);
-  } else {
-    return res.status(404).json({ error: 'Person not found' });
-  }
+app.get(`${baseURL}/:id`, (req, res, next) => {
+  const id = req.params.id;
+  return Phonebook.findById(id)
+    .then((person) => {
+      if (person) {
+        return res.json(person);
+      } else {
+        return res.status(500).json({ error: 'person not found' });
+      }
+    })
+    .catch((err) => next(err));
+  // const foundPerson = data.find((person) => person.id === id);
+  // if (foundPerson) {
+  //   return res.json(foundPerson);
+  // } else {
+  //   return res.status(404).json({ error: 'Person not found' });
+  // }
 });
 
 //* POST
-app.post(`${baseURL}`, (req, res) => {
-  const { name, number } = req.body;
+app.post(`${baseURL}`, (req, res, next) => {
+  let { name, number } = req.body;
   if (name && number) {
-    const duplicatePerson = data.find((person) => person.name.toLowerCase() === name.toLowerCase()) ? true : false;
-    if (duplicatePerson) {
-      return res.status(404).json({ error: 'name must be unique' });
-    } else {
-      const person = { id: Math.floor(Math.random() * 100 + 1), ...req.body };
-      data.push(person);
-      return res.json(person);
-    }
+    // const duplicatePerson = data.find((person) => person.name.toLowerCase() === name.toLowerCase()) ? true : false;
+    // if (duplicatePerson) {
+    //   return res.status(404).json({ error: 'name must be unique' });
+    // } else {
+    //   const person = { id: Math.floor(Math.random() * 100 + 1), ...req.body };
+    //   data.push(person);
+    //   return res.json(person);
+    // }
+    // number = Number(number);
+    return Phonebook.findOne({ name })
+      .then((person) => {
+        if (person) {
+          return res.status(400).json({ error: 'duplicate person' });
+        } else {
+          const newPerson = new Phonebook({ name, number });
+          return newPerson
+            .save()
+            .then((result) => res.json(result))
+            .catch((err) => next(err));
+          // .catch((err) => res.json({ error: err.message }));
+        }
+      })
+      .catch((err) => next(err));
   } else {
-    return res.status(404).json({ error: 'Cannot add person' });
+    return res.status(404).json({ error: 'content is missing' });
   }
 });
 
 //* DELETE
-app.delete(`${baseURL}/:id`, (req, res) => {
-  const id = Number(req.params.id);
-  const foundPersonIndex = data.findIndex((person) => person.id === id);
-  console.log(foundPersonIndex);
-  if (foundPersonIndex > 0) {
-    data.splice(foundPersonIndex, 1);
-    return res.json({ id, state: 'deleted' });
-  } else if (foundPersonIndex === 0) {
-    data.shift();
-    return res.json({ id, state: 'deleted' });
-  } else {
-    return res.status(404).json({ error: 'Cant delete due to person not being found' });
-  }
+app.delete(`${baseURL}/:id`, (req, res, next) => {
+  const id = req.params.id;
+  // const id = req.params.id;
+  // const foundPersonIndex = data.findIndex((person) => person.id === id);
+  // console.log(foundPersonIndex);
+  // if (foundPersonIndex > 0) {
+  //   data.splice(foundPersonIndex, 1);
+  //   return res.json({ id, state: 'deleted' });
+  // } else if (foundPersonIndex === 0) {
+  //   data.shift();
+  //   return res.json({ id, state: 'deleted' });
+  // } else {
+  //   return res.status(404).json({ error: 'Cant delete due to person not being found' });
+  // }
+
+  return Phonebook.findByIdAndDelete(id)
+    .then(() => res.json({ status: 'success' }))
+    .catch((err) => next(err));
 });
-const PORT = process.env.PORT || 3001;
+
+//* UPDATE
+app.put(`${baseURL}/:id`, (req, res, next) => {
+  const id = req.params.id;
+  const update = { name: req.body.name, number: req.body.number };
+  const opts = { runValidators: true, new: true, context: 'query' };
+  return Phonebook.findByIdAndUpdate(id, update, opts)
+    .exec()
+    .then((update) => res.json(update))
+    .catch((err) => next(err));
+
+  // return Phonebook.findById(id)
+  //   .then((person) => {
+  //     if (person) {
+  //       person.name = update.name;
+  //       person.number = update.number;
+  //       return person.save().then((person) => res.json(person));
+  //     }
+  //   })
+  //   .catch((err) => next(err));
+});
+//Error handler middlewares
+app.use(ErrorHandler);
 app.listen(PORT, () => console.log('Server is running'));

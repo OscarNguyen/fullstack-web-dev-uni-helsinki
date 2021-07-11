@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Filter from './components/Filter/Filter';
 import PersonForm from './components/PersonForm/PersonForm';
 import Persons from './components/Persons/Persons';
-import axios from 'axios';
 import { create, deleteService, getAll, update } from './services/phoneBook';
 import classes from './App.module.css';
 
@@ -27,9 +26,10 @@ const App = () => {
     const condition = window.confirm(`Delete ${name} ?`);
     console.log(id);
     if (condition) {
-      await deleteService(id);
+      const result = await deleteService(id);
+      console.log(result);
       // setPersons((prev) => [...prev, prev.filter((person) => person.id !== id)]);
-      setPersons(persons.filter((person) => person.id !== id));
+      setPersons(persons.filter((person) => person._id !== id));
     } else {
       return;
     }
@@ -38,34 +38,55 @@ const App = () => {
     event.preventDefault();
 
     let isAdded = persons.find((person) => person.name === newName) ? true : false;
-    const newPerson = { name: newName, phone: newPhone };
+    const newPerson = { name: newName, number: newPhone };
 
     if (!isAdded) {
-      const fetchedPerson = await create(newPerson);
-      console.log(fetchedPerson);
-      setPersons((prev) => [...prev, fetchedPerson]);
-      setNewName('');
-      setNewPhone('');
-      setNotification(`Added ${newName}`);
-      setCssClass('notification-success');
-      setTimeout(() => {
-        setNotification('');
-      }, 5000);
+      try {
+        const result = await create(newPerson);
+        console.log(result);
+        setPersons((prev) => [...prev, result]);
+        setNewName('');
+        setNewPhone('');
+        setNotification(`Added ${newName}`);
+        setCssClass('notification-success');
+        setTimeout(() => {
+          setNotification('');
+        }, 5000);
+      } catch (err) {
+        console.log(err.response);
+        setNotification(err.response.data.error);
+        setCssClass('notification-error');
+        setTimeout(() => {
+          setNotification('');
+        }, 5000);
+      }
+      // if (result.error) {
+
+      //   return;
+      // }
     } else {
       const condition = window.confirm(
         `${newName} is already added to the phonebook, replace old number with the new one?`,
       );
       if (condition) {
-        let id = persons.find((person) => person.name === newName).id;
-
+        let id = persons.find((person) => person.name === newName)._id;
+        console.log(id);
+        console.log(newName);
         update(id, newPerson)
-          .then(() => {
-            setPersons(persons.map((person) => (person.id !== id ? person : newPerson)));
+          .then((ketQua) => {
+            console.log(ketQua);
+            console.log(newPerson);
+            setPersons(persons.map((person) => (person._id !== id ? person : { ...newPerson, _id: id })));
             setNotification(`Updated ${newName}`);
             setCssClass('notification-success');
           })
           .catch((error) => {
-            setNotification(`Information of ${newName} has been removed from the server`);
+            console.log(error.response);
+            if (error.response.data.error) {
+              setNotification(error.response.data.error);
+            } else {
+              setNotification(`Information of ${newName} has been removed from the server`);
+            }
             setCssClass('notification-error');
           });
 
