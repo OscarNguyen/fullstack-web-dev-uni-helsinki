@@ -1,0 +1,61 @@
+###
+
+###
+GET http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+###
+DELETE  http://localhost:3003/api/blogs/60f96f4acacc270e7c501530 HTTP/1.1
+Content-Type: application/json
+###
+PUT  http://localhost:3003/api/blogs/60f9683774d7a637905cba2e HTTP/1.1
+Content-Type: application/json
+
+{
+"title":"ee2",
+"author":"fadd",
+"url":"www.com",
+"likes":333
+}
+
+###
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+# Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoYW5nIiwibmFtZSI6IkNoYW5nIiwiaWQiOiI2MTExN2E3NTFiMTIxYzA3NGZhMjkxMjIiLCJpYXQiOjE2MzAxNTQyMjJ9.h-AA19qZ79pzi4otpPaIbIEzaqM_r7onzj_GyNny_1o
+
+{
+"title":"new9",
+"author":"fadd",
+"url":"www.com",
+"likes":33
+}
+
+### USER
+POST http://localhost:3003/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "username":"chang",
+  "password":"cc1",
+  "name":"Chang"
+}
+###
+POST http://localhost:3003/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "username":"mi",
+  "password":"ddsads",
+  "name":"Chang"
+}
+###
+GET http://localhost:3003/api/users HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:3003/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username":"chang",
+  "password":"cc1"
+}
