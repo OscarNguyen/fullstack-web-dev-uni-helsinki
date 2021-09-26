@@ -1,0 +1,12 @@
+.login {
+  width: 40%;
+  margin: 5rem auto;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 2rem;
+}
+input {
+  margin-bottom: 0.5rem;
+}
