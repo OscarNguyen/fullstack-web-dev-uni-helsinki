@@ -9,7 +9,7 @@ import Notification from './components/Notification/Notification'
 const token = localStorage.getItem('token')
 console.log(token)
 axios.defaults.baseURL = 'http://localhost:3003/'
-axios.defaults.headers.common = { Authorization: `Bearer ${token}` }
+axios.defaults.headers.common = { Authorization: `bearer ${token}` }
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
@@ -54,7 +54,7 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setNotification({ type: null, text: null })
-    }, 2000)
+    }, 20000)
   }, [notification.text])
   if (user) {
     return (

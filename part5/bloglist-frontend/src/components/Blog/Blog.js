@@ -32,7 +32,7 @@ const Blog = ({ blog, onUpdateBlog }) => {
 
         {blog.title} {blog.author}
       </div>
-      <button onClick={() => setIsOpen(!isOpen)} className={classes.btn}>
+      <button  onClick={() => setIsOpen(!isOpen)} className={classes.viewBtn}>
         View
       </button>
       {isOpen && (
@@ -49,7 +49,7 @@ const Blog = ({ blog, onUpdateBlog }) => {
             Like
           </button>
           <p>{blog.author}</p>
-          {blog.user && blog.user.id === loggedInUser.id ? (
+          {blog.user && loggedInUser && blog.user.id === loggedInUser.id ? (
             <button onClick={() => deleteBlog(blog.id)}>Remove</button>
           ) : null}
         </div>

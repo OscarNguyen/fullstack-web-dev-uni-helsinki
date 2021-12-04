@@ -11,7 +11,7 @@ const CreateBlog = (props) => {
   const onSubmitForm = async (event) => {
     event.preventDefault()
     const token = localStorage.getItem('token')
-
+    console.log(token)
     if (userInput.title && userInput.author && userInput.url && token) {
       try {
         const result = await blogService.postBlog(userInput, token.trim())

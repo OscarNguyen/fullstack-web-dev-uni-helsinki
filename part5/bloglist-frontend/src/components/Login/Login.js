@@ -31,6 +31,8 @@ const Login = (props) => {
         <input
           onChange={onChangeHandler}
           name="username"
+          id="username"
+
           value={userData.username}
           type="text"
           placeholder="username"
@@ -39,6 +41,7 @@ const Login = (props) => {
         <input
           onChange={onChangeHandler}
           name="password"
+          id="password"
           value={userData.password}
           type="text"
           placeholder="password"
