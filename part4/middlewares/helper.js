@@ -23,8 +23,10 @@ const userExtractor = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.SECRET);
 
     req.user = { username: decodedToken.username, name: decodedToken.name, id: decodedToken.id };
+  } else{
+
+    req.user = null;
   }
-  req.user = null;
 
   next();
 };

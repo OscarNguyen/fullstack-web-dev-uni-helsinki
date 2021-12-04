@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const BlogRouter = require('./controllers/blog');
 const UserRouter = require('./controllers/user');
+const TestingRouter = require('./controllers/testing')
 const { PORT, MONGODB_URI } = require('./utils/config');
 const { error, info } = require('./utils/logger');
 const { tokenExtractor } = require('./middlewares/helper');
@@ -35,4 +36,7 @@ app.use(express.json());
 app.use('/api/blogs', BlogRouter);
 app.use('/api/users', UserRouter);
 
+if(process.env.NODE_ENV==='test'){
+  app.use('/api/testing',TestingRouter)
+}
 module.exports = app;

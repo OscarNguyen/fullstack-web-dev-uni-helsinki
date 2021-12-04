@@ -20,7 +20,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs HTTP/1.1
 Content-Type: application/json
-# Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNoYW5nIiwibmFtZSI6IkNoYW5nIiwiaWQiOiI2MTExN2E3NTFiMTIxYzA3NGZhMjkxMjIiLCJpYXQiOjE2MzAxNTQyMjJ9.h-AA19qZ79pzi4otpPaIbIEzaqM_r7onzj_GyNny_1o
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pbmgiLCJuYW1lIjoiQ2hhbmciLCJpZCI6IjYxYTNhZGQ2NGUwMDJkNWZjYzUwNWRjZiIsImlhdCI6MTYzODExNjg0Mn0.3C9kGLIAqAqVKeQ994GZ56NFvV7-sMcKpmCbMwDA7ck
 
 {
 "title":"new9",
@@ -43,7 +43,7 @@ POST http://localhost:3003/api/users HTTP/1.1
 Content-Type: application/json
 
 {
-  "username":"mi",
+  "username":"minh",
   "password":"ddsads",
   "name":"Chang"
 }
@@ -56,6 +56,12 @@ POST http://localhost:3003/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "username":"chang",
-  "password":"cc1"
+  "username":"minh",
+  "password":"ddsads",
+  "name":"Chang"
 }
+
+# {
+#   "username":"chang",
+#   "password":"cc1"
+# }
