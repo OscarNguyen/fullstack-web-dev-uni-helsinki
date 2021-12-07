@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+
 import { addNew } from '../../actions/anecdote'
+import {createNewNotification,resetNotification} from '../../actions/notification'
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch()
@@ -9,12 +11,18 @@ const AnecdoteForm = () => {
         event.preventDefault();
         console.log(content);
         dispatch(addNew(content))
+        dispatch(createNewNotification())
+        setTimeout(()=>{
+            dispatch(resetNotification())
+        },5000)
     }
+
     const [content, setContent] = useState("")
 
     const handleOnChange = event => {
         setContent(event.target.value)
     }
+
     return <div>
         <h2>create new</h2>
         <form onSubmit={submitForm}>
