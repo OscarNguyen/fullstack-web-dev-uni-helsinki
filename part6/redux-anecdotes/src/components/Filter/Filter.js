@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import {changeFilter} from '../../actions/filter'
+import { changeFilter } from '../../actions/filter'
 
 const Filter = () => {
     const dispatch = useDispatch()
@@ -9,6 +9,7 @@ const Filter = () => {
     const handleChange = (event) => {
         // input-field value is in variable event.target.value
         dispatch(changeFilter(event.target.value))
+        // console.log(event.target.value)
     }
 
     const style = {

@@ -7,22 +7,22 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
 
     const anecdotes = useSelector(({ anecdote, filter }) => {
+
         if (filter && filter.trim().length !== 0) {
-           
-            return anecdote.filter(item=>item.content===filter).sort((a, b) =>
-            a.votes - b.votes
+
+            return anecdote.filter(item => item.content.toLowerCase().includes(filter.toLowerCase())).sort((a, b) =>
+                a.votes - b.votes
             )
         }
+
         return anecdote.sort((a, b) =>
-        a.votes - b.votes
-    )
-        
+            a.votes - b.votes
+        )
+
     })
 
     const vote = (id, message) => {
-
         dispatch(voteNotification(message))
-
         dispatch(voteAnecdote(id))
 
         setTimeout(() => {

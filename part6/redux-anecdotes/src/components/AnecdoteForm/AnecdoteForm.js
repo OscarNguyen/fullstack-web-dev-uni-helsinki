@@ -1,20 +1,25 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { addNew } from '../../actions/anecdote'
-import {createNewNotification,resetNotification} from '../../actions/notification'
+import { createNewNotification, resetNotification } from '../../actions/notification'
+import { BACKEND_API, createNew } from '../../services/anecdotes'
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch()
 
-    const submitForm = event => {
+    const submitForm = async (event) => {
         event.preventDefault();
         console.log(content);
-        dispatch(addNew(content))
         dispatch(createNewNotification())
-        setTimeout(()=>{
+
+        const data = await createNew(content)
+        dispatch(addNew(data))
+
+        setTimeout(() => {
             dispatch(resetNotification())
-        },5000)
+        }, 5000)
     }
 
     const [content, setContent] = useState("")

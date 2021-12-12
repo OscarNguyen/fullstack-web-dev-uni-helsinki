@@ -1,3 +1,10 @@
+export const initData = (data) => {
+    return {
+        type: 'INIT_DATA',
+        data
+    }
+}
+
 export const voteAnecdote = (id) => {
     return {
         type: 'VOTE',
@@ -5,9 +12,9 @@ export const voteAnecdote = (id) => {
     }
 }
 
-export const addNew = (content) => {
+export const addNew = (data) => {
     return {
         type: 'ADD_NEW',
-        content
+        data
     }
 }
