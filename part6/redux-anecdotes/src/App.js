@@ -11,7 +11,8 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    fetchAll().then(anecdotes => dispatch(initData(anecdotes)))
+    // fetchAll().then(anecdotes => dispatch(initData(anecdotes)))
+    dispatch(initData())
   }, [dispatch])
 
   return (

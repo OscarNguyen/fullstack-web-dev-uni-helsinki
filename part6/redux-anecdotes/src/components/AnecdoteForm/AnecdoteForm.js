@@ -1,28 +1,27 @@
-import axios from 'axios'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, connect } from 'react-redux'
 
 import { addNew } from '../../actions/anecdote'
 import { createNewNotification, resetNotification } from '../../actions/notification'
-import { BACKEND_API, createNew } from '../../services/anecdotes'
 
-const AnecdoteForm = () => {
-    const dispatch = useDispatch()
+const AnecdoteForm = (props) => {
+    const [content, setContent] = useState("")
+
+    // const dispatch = useDispatch()
 
     const submitForm = async (event) => {
         event.preventDefault();
-        console.log(content);
-        dispatch(createNewNotification())
 
-        const data = await createNew(content)
-        dispatch(addNew(data))
+        props.createNewNotification(5000)
+
+        // const data = await createNew(content)
+        props.addNew(content)
 
         setTimeout(() => {
-            dispatch(resetNotification())
+            props.resetNotification()
         }, 5000)
     }
 
-    const [content, setContent] = useState("")
 
     const handleOnChange = event => {
         setContent(event.target.value)
@@ -37,4 +36,12 @@ const AnecdoteForm = () => {
     </div>
 }
 
-export default AnecdoteForm
+const mapDispatchToProps = {
+    createNewNotification,
+    resetNotification,
+    addNew
+}
+
+const ConnectedAnecdoteForm = connect(null, mapDispatchToProps)(AnecdoteForm)
+
+export default ConnectedAnecdoteForm

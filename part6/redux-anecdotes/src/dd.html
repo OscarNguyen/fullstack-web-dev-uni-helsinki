@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="speech-container">
+      <div class="bt-container">
+        <button
+          onclick="btn_click(this.id);"
+          type="button"
+          id="speakbtn-1"
+          class="button button--primary01 svg-button"
+          data-bi-id="demo-speak"
+          data-bi-scn="spchtotxt-demo"
+          data-bi-an="spchtotxt-demo"
+          data-bi-tn="button button--primary01 svg-button"
+          data-bi-scnstp="speak-en-US-automaticpunctuationenabled"
+          style="display: block"
+        >
+          <span
+            ><svg
+              aria-hidden="true"
+              role="presentation"
+              data-slug-id="audio-microphone"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16.5 24"
+            >
+              <path
+                d="M16.5,12v4.242a4.615,4.615,0,0,1-.375,1.852,4.777,4.777,0,0,1-2.531,2.531A4.615,4.615,0,0,1,11.742,21H9v1.5h3V24H4.5V22.5h3V21H4.758a4.615,4.615,0,0,1-1.852-.375A4.777,4.777,0,0,1,.375,18.094,4.615,4.615,0,0,1,0,16.242V12H1.5q0,.645-.041,1.453T1.441,15.1A11.624,11.624,0,0,0,1.6,16.729a4.091,4.091,0,0,0,.5,1.406,2.768,2.768,0,0,0,1,.99,3.247,3.247,0,0,0,1.658.375h6.984a3.247,3.247,0,0,0,1.658-.375,2.768,2.768,0,0,0,1-.99,4.091,4.091,0,0,0,.5-1.406,11.624,11.624,0,0,0,.158-1.629q.023-.838-.018-1.641T15,12ZM5.25,18a2.207,2.207,0,0,1-.879-.176,2.238,2.238,0,0,1-1.2-1.2A2.207,2.207,0,0,1,3,15.75V2.25a2.207,2.207,0,0,1,.176-.879,2.238,2.238,0,0,1,1.2-1.2A2.207,2.207,0,0,1,5.25,0h6a2.207,2.207,0,0,1,.879.176,2.238,2.238,0,0,1,1.2,1.2,2.207,2.207,0,0,1,.176.879v13.5a2.207,2.207,0,0,1-.176.879,2.238,2.238,0,0,1-1.2,1.2A2.207,2.207,0,0,1,11.25,18ZM4.5,15.75a.76.76,0,0,0,.75.75h6a.76.76,0,0,0,.75-.75V2.25a.721.721,0,0,0-.223-.527A.721.721,0,0,0,11.25,1.5h-6a.721.721,0,0,0-.527.223A.721.721,0,0,0,4.5,2.25Z"
+              ></path></svg
+          ></span>
+          <span>Speak</span>
+        </button>
+
+        <button
+          type="button"
+          id="stopspeakbtn-1"
+          style="display: none"
+          class="button button--primary01 svg-button"
+          data-bi-id="demo-stop"
+          data-bi-an="spchtotxt-demo"
+          data-bi-tn="button button--primary01 svg-button"
+        >
+          <span
+            ><svg
+              aria-hidden="true"
+              role="presentation"
+              data-slug-id="audio-stop"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 21 21"
+            >
+              <path d="M0,0H21V21H0ZM19.5,19.5V1.5H1.5v18Z"></path></svg
+          ></span>
+          <span>Stop</span>
+        </button>
+      </div>
+      <div class="box-contanier">
+        <textarea id="phraseDiv-1" readonly=""></textarea>
+      </div>
+    </div>
+
+    <script src="https://csspeechstorage.blob.core.windows.net/drop/1.19.0/RawJavaScriptSDK/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
+
+    <script src="dd.js"></script>
+  </body>
+</html>

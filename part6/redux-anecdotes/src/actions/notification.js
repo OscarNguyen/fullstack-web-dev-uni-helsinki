@@ -1,12 +1,44 @@
-export const createNewNotification =()=>({
-    type: 'CREATE_NEW'
-})
+let timeId = null
 
-export const voteNotification =(text)=>({
-    type: 'VOTE_NOTIFICATION',
-    text
-})
+export const createNewNotification = (time) => {
+    return async dispatch => {
+        dispatch({ type: 'CREATE_NEW' })
 
-export const resetNotification =()=>({
+        if (timeId) {
+            clearTimeout(timeId)
+        }
+
+        timeId = setTimeout(() =>
+            dispatch({
+                type: 'RESET',
+            }), time
+        )
+    }
+}
+
+export const voteNotification = (text, time) => {
+    return async (dispatch) => {
+        dispatch(
+            {
+                type: 'VOTE_NOTIFICATION',
+                text
+            }
+        )
+
+        if (timeId) {
+            clearTimeout(timeId)
+        }
+
+        timeId = setTimeout(() => {
+            dispatch({
+                type: 'RESET',
+            })
+        }, time
+        )
+    }
+}
+
+export const resetNotification = () => ({
     type: 'RESET'
 })
+
