@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from './components/View/About';
 import Menu from './components/View/Menu';
@@ -46,15 +46,20 @@ const App = () => {
     setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
   };
 
+  useEffect(() => {
+    setTimeout(() => setNotification(''), 5000);
+  }, [notification]);
+
   return (
     <Router>
       <h1>Software anecdotes</h1>
       <Menu />
+      <b>{notification}</b>
       <Routes>
-        <Route path="/anecdotes/:id" exact element={<Anecdote anecdoteList={anecdotes} />} />
-        <Route path="/create" exact element={<CreateNew addNew={addNew} />} />
-        <Route path="/about" exact element={<About />} />
-        <Route path="/" exact element={<AnecdoteList anecdotes={anecdotes} />} />
+        <Route path="/anecdotes/:id" element={<Anecdote anecdoteList={anecdotes} />} />
+        <Route path="/create" element={<CreateNew setNotification={setNotification} addNew={addNew} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
       </Routes>
       {/* <AnecdoteList anecdotes={anecdotes} />
       <About />
