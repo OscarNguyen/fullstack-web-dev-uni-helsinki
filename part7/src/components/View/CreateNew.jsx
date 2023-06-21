@@ -24,6 +24,14 @@ const CreateNew = ({ addNew, setNotification }) => {
     setNotification(`A new anecdote ${content.value} created!`);
   };
 
+  const resetValues = (event) => {
+    event.preventDefault();
+
+    content.reset();
+    author.reset();
+    info.reset();
+  };
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -41,6 +49,7 @@ const CreateNew = ({ addNew, setNotification }) => {
           <input {...info} />
         </div>
         <button type="submit">create</button>
+        <button onClick={resetValues}>reset</button>
       </form>
     </div>
   );
