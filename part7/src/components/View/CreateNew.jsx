@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useField } from '../../hooks';
 
 const CreateNew = ({ addNew, setNotification }) => {
-  const content = useField('content', 'text');
-  const author = useField('author', 'text');
-  const info = useField('info', 'text');
+  const { htmlAttributes: content, reset: resetContent } = useField('content', 'text');
+  const { htmlAttributes: author, reset: resetAuthor } = useField('author', 'text');
+  const { htmlAttributes: info, reset: resetInfo } = useField('info', 'text');
 
   const navigate = useNavigate();
 
@@ -27,9 +27,9 @@ const CreateNew = ({ addNew, setNotification }) => {
   const resetValues = (event) => {
     event.preventDefault();
 
-    content.reset();
-    author.reset();
-    info.reset();
+    resetContent();
+    resetAuthor();
+    resetInfo();
   };
 
   return (

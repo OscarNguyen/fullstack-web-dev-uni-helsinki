@@ -8,10 +8,7 @@ export const useField = (name, type) => {
   const reset = () => setValue('');
 
   return {
-    type,
-    value,
-    onChange,
-    name,
+    htmlAttributes: { type, value, onChange, name },
     reset,
   };
 };
