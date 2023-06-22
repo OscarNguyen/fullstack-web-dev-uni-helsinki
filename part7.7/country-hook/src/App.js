@@ -22,7 +22,7 @@ const useCountry = (name) => {
     (async () => {
       try {
         const res = await axios.get(`https://studies.cs.helsinki.fi/restcountries/api/name/${name}`);
-        console.log(res);
+
         setCountry(res.data);
       } catch (error) {
         setCountry(null);
